@@ -4,5 +4,6 @@
 .bloop
 .metals
 .vscode
-project
+project/project
+project/target
 target
