@@ -12,7 +12,14 @@ object RecordsInFilesGenerator {
   val waitTime = 5
 
   def main(args: Array[String]): Unit = {
-    val rs = new RecordStructure("contact").
+    val rs1 = new RecordStructure("contact").
+      add("fname", FieldType.FIRST_NAME).
+      add("mname", FieldType.FIRST_NAME).
+      add("lname", FieldType.LAST_NAME).
+      add("age", FieldType.AGE).
+      add("ssn", FieldType.SSN)
+
+    val rs2 = new RecordStructure("employee").
       add("fname", FieldType.FIRST_NAME).
       add("mname", FieldType.FIRST_NAME).
       add("lname", FieldType.LAST_NAME).
@@ -21,15 +28,25 @@ object RecordsInFilesGenerator {
 
     log.info("-> main (...)")
 
+    val haveTwo = args.length > 0
+
     val start = System.currentTimeMillis()
     while (start + streamDuration * 1000 > System.currentTimeMillis()) {
       val maxRecord = RecordGeneratorUtils.getRandomInt(batchSize) + 1
 
       RecordWriterUtils.write(
-        rs.recordName + "_" + System.currentTimeMillis() + ".txt",
-        rs.getRecords(maxRecord, false),
+        rs1.recordName + "_" + System.currentTimeMillis() + ".txt",
+        rs1.getRecords(maxRecord, false),
         "./input/s1/"
       )
+
+      if (haveTwo) {
+        RecordWriterUtils.write(
+          rs2.recordName + "_" + System.currentTimeMillis() + ".txt",
+          rs2.getRecords(maxRecord, false),
+          "./input/s2/"
+      )
+      }
 
       try {
         Thread.sleep(RecordGeneratorUtils.getRandomInt(waitTime * 1000) + waitTime * 1000 / 2);

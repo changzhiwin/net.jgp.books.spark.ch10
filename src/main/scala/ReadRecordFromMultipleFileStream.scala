@@ -31,9 +31,9 @@ object ReadRecordFromMultipleFileStream extends Basic {
     while(queryStream1.isActive && queryStream2.isActive) {
       iterationCount += 1
 
-      log.info("Pass #{}", iterationCount)
+      log.error("Pass #{}", iterationCount)
 
-      if (startProcessing + 30000 < System.currentTimeMillis()) {
+      if (startProcessing + 60000 < System.currentTimeMillis()) {
         queryStream1.stop
         queryStream2.stop
       }
@@ -66,17 +66,17 @@ object ReadRecordFromMultipleFileStream extends Basic {
             val age = record.getInt(3)
 
             if (age < 13) {
-              log.debug("On stream #{}: {} is a teen, they are {} yrs old.",
+              log.error("On stream #{}: {} is a teen, they are {} yrs old.",
                   path,
                   record.getString(0),
                   age)
             } else if (age > 12 && age < 20) {
-              log.debug("On stream #{}: {} is a teen, they are {} yrs old.",
+              log.error("On stream #{}: {} is a teen, they are {} yrs old.",
                   path,
                   record.getString(0),
                   age)
             } else {
-              log.debug("On stream #{}: {} is a senior, they are {} yrs old.",
+              log.error("On stream #{}: {} is a senior, they are {} yrs old.",
                   path,
                   record.getString(0),
                   age)

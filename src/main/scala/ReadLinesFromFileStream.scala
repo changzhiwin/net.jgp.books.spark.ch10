@@ -26,7 +26,7 @@ object ReadLinesFromFileStream extends Basic{
 
     try {
       // running in one minite
-      query.awaitTermination(20000)
+      query.awaitTermination(60000)
     } catch {
       case e: StreamingQueryException  => log.error("Exception while waiting for query to end {}.", e.getMessage)
       case t: TimeoutException         => log.error("A timeout exception has occured: {}", t.getMessage)
